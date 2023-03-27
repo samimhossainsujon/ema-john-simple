@@ -18,16 +18,15 @@ const Shop = () => {
     useEffect(() => {
         // console.log('products',products)
         const storedCart = getShoppingCart();
-
-        const savedCart =[];
+        const savedCart = [];
         // 1.step get id
         for (const id in storedCart) {
 
             // step 2. get the product by using id
-             const addedProduct = products.find(product => product.id === id);
+            const addedProduct = products.find(product => product.id === id);
 
             // step 3: get quanti of the product 
-            if(addedProduct){
+            if (addedProduct) {
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
                 savedCart.push(addedProduct);
@@ -39,9 +38,22 @@ const Shop = () => {
 
     const handleAddToCart = (product) => {
         // cart.push(product);
-        const newCart = [...cart, product];
+        // const newCart = [...cart, product];
+        // setCart(newCart);
+        // addToDb(product.id)
+        let newCart =[];
+
+        const exists = cart.find(pd =>pd.id === product.id);
+        if(!exists){
+            product.quantity =1;
+            newCart= [...cart,product];
+        }else{
+            exists.quantity = exists.quantity+1;
+            const remaining = cart.filter (pd => pd.id !== product.id);
+            newCart =[...remaining, exists];
+        }
         setCart(newCart);
-        addToDb(product.id)
+        addToDb(product.id);
     }
 
 
