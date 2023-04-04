@@ -17,8 +17,7 @@ const ReviewItem = ({product,handleRemoveFromCart}) => {
 
            <button onClick={()=>handleRemoveFromCart(id)} className='btn-delete'>
            <FontAwesomeIcon className='delete-icon' icon={faTrashAlt}  />
-           <FontAwesomeIcon /> 
-           </button>
+            </button>
         </div>
     );
 };

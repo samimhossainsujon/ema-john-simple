@@ -3,6 +3,20 @@
     padding: 25px;
     position: sticky;
     top: 0;
+}
 
+.btn-clear-cart{
+    width: 200px;
+    height: 50px;
+    margin: 10px auto;
+    background-color: red;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 25px;
+    
+    
 }
 
