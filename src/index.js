@@ -1,56 +1,71 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {createBrowserRouter,RouterProvider,} from "react-router-dom";
-import Shop from './components/Shop/Shop';
-import Home from './components/Layout/Home';
-import Orders from './components/Orders/Orders';
-import Inventory from './components/Inventory/Inventory';
-import Login from './components/Login/Login';
-import cartProductsLoader from './Loaders/cardProductsLoader';
-import Checkout from './components/Checkout/Checkout';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Shop from "./components/Shop/Shop";
+import Home from "./components/Layout/Home";
+import Orders from "./components/Orders/Orders";
+import Inventory from "./components/Inventory/Inventory";
+import Login from "./components/Login/Login";
+import cartProductsLoader from "./Loaders/cardProductsLoader";
+import Checkout from "./components/Checkout/Checkout";
+import SingUp from "./components/SingUp/SingUp";
+import AuthPorvider from "./components/providers/AuthPorvider";
+import PrivateRoute from "./routes/PrivateRoute";
 
-const router =createBrowserRouter([
+const router = createBrowserRouter([
   {
-    path:'/',
-    element: <Home/>,
-    children:[
+    path: "/",
+    element: <Home />,
+    children: [
       {
-        path:'/shop',
-        element:<Shop></Shop>
+        path: "/shop",
+        element: <Shop></Shop>,
+        loader:()=> fetch('http://localhost:5000/totalProducts')
       },
       {
-        path:'orders',
-        element:<Orders></Orders>,
-        loader:cartProductsLoader
+        path: "orders",
+        element: <Orders></Orders>,
+        loader: cartProductsLoader,
       },
       {
-        path:'inventory',
-        element:<Inventory></Inventory>
+        path: "inventory",
+        element: (
+          <PrivateRoute>
+            <Inventory></Inventory>
+          </PrivateRoute>
+        ),
       },
       {
-        path:'checkout',
-        element:<Checkout></Checkout>
+        path: "checkout",
+        element: (
+          <PrivateRoute>
+            <Checkout></Checkout>
+          </PrivateRoute>
+        ),
       },
 
       {
-        path: 'login',
-        element:<Login></Login>
+        path: "login",
+        element: <Login></Login>,
       },
-    ]
-  }
-])
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+      {
+        path: "signup",
+        element: <SingUp></SingUp>,
+      },
+    ],
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-   <RouterProvider router={router}/>
+    <AuthPorvider>
+      <RouterProvider router={router} />
+    </AuthPorvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
